@@ -1,14 +1,14 @@
-import express, { Application, Request, Response } from 'express'
-import cors from 'cors'
+import express, { Application } from 'express';
+import cors from 'cors';
+import { UserRoutes } from './modules/users/user.routes';
 
-const app: Application = express()
+const app: Application = express();
 
 // parsers
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World')
-})
+// routes
+app.use('/api/v1/users', UserRoutes);
 
-export default app
+export default app;
