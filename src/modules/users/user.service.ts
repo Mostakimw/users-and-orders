@@ -28,6 +28,18 @@ const getSpecificUserFromDB = async (userId: number) => {
   return result;
 };
 
+//! update user
+const updateUserInDB = async (userId: number, userData: IUser) => {
+  if (!(await User.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
+  const result = await User.findOneAndUpdate({ userId }, userData, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
 //! delete user
 const deleteUserFromDB = async (userId: number) => {
   if (!(await User.isUserExists(userId))) {
@@ -41,5 +53,6 @@ export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
   getSpecificUserFromDB,
+  updateUserInDB,
   deleteUserFromDB,
 };

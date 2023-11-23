@@ -63,6 +63,30 @@ const getSpecificUser = async (req: Request, res: Response) => {
   }
 };
 
+//! update user
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const updatedUser = req.body;
+    const userId = parseInt(req.params.userId, 10);
+    const result = await UserServices.updateUserInDB(userId, updatedUser);
+    console.log(result);
+    res.status(200).json({
+      success: 'true',
+      message: 'Users updated successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: 'false',
+      message: error.message || 'User deletion failed',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
 //! delete user
 const deleteUser = async (req: Request, res: Response) => {
   try {
@@ -90,4 +114,5 @@ export const UserControllers = {
   getAllUser,
   getSpecificUser,
   deleteUser,
+  updateUser,
 };

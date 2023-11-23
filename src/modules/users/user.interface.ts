@@ -28,7 +28,7 @@ export interface IUser {
   fullName: IFullName;
   age: number;
   email: string;
-  isActive: 'active' | 'inactive';
+  isActive: boolean;
   hobbies: string[];
   address: IAddress;
   orders: IOrder[];

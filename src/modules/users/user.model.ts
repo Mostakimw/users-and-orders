@@ -49,6 +49,7 @@ const userSchema = new Schema<IUser, UserModel>({
     type: Number,
     required: [true, 'User id is required'],
     maxlength: 20,
+    unique: true,
   },
   username: {
     type: String,
@@ -69,12 +70,10 @@ const userSchema = new Schema<IUser, UserModel>({
   email: {
     type: String,
     required: [true, 'Email is required'],
-    unique: true,
   },
   isActive: {
-    type: String,
-    enum: ['active', 'inactive'],
-    default: 'active',
+    type: Boolean,
+    default: true,
   },
   hobbies: {
     type: [String],
