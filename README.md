@@ -9,6 +9,14 @@ Before running the application, make sure you have the following installed on yo
 - Node.js
 - npm (Node Package Manager)
 
+## Used Technologies
+
+- TypeScript
+- Express
+- MongoDB
+- Mongoose
+- Zod
+
 ## Installation
 
 1. Clone the repository:
@@ -37,8 +45,8 @@ Before running the application, make sure you have the following installed on yo
    ```PORT=5000
    DATABASE_URL_LOCAL=mongodb://127.0.0.1:27017/userAndOrder
    BCRYPT_SALT_ROUNDS=12
-   Adjust the values based on your preferences and local MongoDB setup
    ```
+   Adjust the values based on your preferences and local MongoDB setup
 
 ## Database Setup
 
