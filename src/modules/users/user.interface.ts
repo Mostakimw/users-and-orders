@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 // name interface
 export interface IFullName {
   firstName: string;
@@ -30,4 +32,10 @@ export interface IUser {
   hobbies: string[];
   address: IAddress;
   orders: IOrder[];
+}
+
+//! method for user exists or not
+export interface UserModel extends Model<IUser> {
+  // eslint-disable-next-line no-unused-vars
+  isUserExists(userId: number): Promise<IUser | null>;
 }

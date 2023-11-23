@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IAddress, IFullName, IUser } from './user.interface';
+import { IAddress, IFullName, IUser, UserModel } from './user.interface';
 import config from '../../config';
 import bcrypt from 'bcrypt';
 
@@ -44,7 +44,7 @@ const orderSchema = new Schema({
 });
 
 //! user schema
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, UserModel>({
   userId: {
     type: Number,
     required: [true, 'User id is required'],
@@ -107,4 +107,10 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-export const User = model<IUser>('User', userSchema);
+//! user exists or not method
+userSchema.statics.isUserExists = async function (userId: number) {
+  const user = await User.findOne({ userId });
+  return user;
+};
+
+export const User = model<IUser, UserModel>('User', userSchema);

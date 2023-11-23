@@ -35,13 +35,35 @@ const getAllUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       success: 'false',
-      message: error.message || 'User fetching failed',
+      message: error.message || 'Users fetching failed',
       error: error,
     });
   }
 };
 
+//! get specific user
+const getSpecificUser = async (req: Request, res: Response) => {
+  try {
+    const userId: number = parseInt(req.params.userId, 10);
+    const result = await UserServices.getSpecificUserFromDB(userId);
+    res.status(200).json({
+      success: 'true',
+      message: 'User fetched successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: 'false',
+      message: error.message || 'User fetching failed',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
 export const UserControllers = {
   createUser,
   getAllUser,
+  getSpecificUser,
 };
