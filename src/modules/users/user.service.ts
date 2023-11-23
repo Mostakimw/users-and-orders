@@ -9,7 +9,13 @@ const createUserIntoDB = async (userData: IUser) => {
 
 //! get all userData
 const getAllUserFromDB = async () => {
-  const result = await User.find();
+  const result = await User.find().select({
+    username: 1,
+    fullName: 1,
+    age: 1,
+    email: 1,
+    address: 1,
+  });
   return result;
 };
 

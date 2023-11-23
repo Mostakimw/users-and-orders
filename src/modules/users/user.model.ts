@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { IAddress, IFullName, IUser } from './user.interface';
+import config from '../../config';
+import bcrypt from 'bcrypt';
 
 //! full name schema
 const fullNameSchema = new Schema<IFullName>({
@@ -57,6 +59,7 @@ const userSchema = new Schema<IUser>({
   password: {
     type: String,
     required: [true, 'Password is required'],
+    select: true,
   },
   fullName: fullNameSchema,
   age: {
@@ -81,5 +84,27 @@ const userSchema = new Schema<IUser>({
     type: [orderSchema],
   },
 });
+
+//! middleware for hashing and hiding password
+userSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+//! saving password as hash
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+//! exclude password
+userSchema.methods.toJSON = function () {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
 
 export const User = model<IUser>('User', userSchema);
