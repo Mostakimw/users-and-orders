@@ -20,6 +20,16 @@ const createOrderIntoDB = async (userId: string, orderData: IOrder) => {
   return existingUser;
 };
 
+//! get specific user orders
+const getSingleUserOrdersFromDB = async (userId: string) => {
+  if (!(await User.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
+  const result = await User.findOne({ userId }).select({ _id: 0, orders: 1 });
+  return result;
+};
+
 export const OrderServices = {
   createOrderIntoDB,
+  getSingleUserOrdersFromDB,
 };

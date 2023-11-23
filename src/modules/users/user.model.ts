@@ -31,17 +31,20 @@ const addressSchema = new Schema<IAddress>({
 });
 
 //! order schema
-const orderSchema = new Schema({
-  productName: {
-    type: String,
+const orderSchema = new Schema(
+  {
+    productName: {
+      type: String,
+    },
+    price: {
+      type: Number,
+    },
+    quantity: {
+      type: Number,
+    },
   },
-  price: {
-    type: Number,
-  },
-  quantity: {
-    type: Number,
-  },
-});
+  { _id: false },
+);
 
 //! user schema
 const userSchema = new Schema<IUser, UserModel>({
