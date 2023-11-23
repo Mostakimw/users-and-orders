@@ -62,8 +62,32 @@ const getSpecificUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+//! delete user
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const userId: number = parseInt(req.params.userId, 10);
+    await UserServices.deleteUserFromDB(userId);
+    res.status(200).json({
+      success: 'true',
+      message: 'User deleted successfully!',
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: 'false',
+      message: error.message || 'User deletion failed',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUser,
   getSpecificUser,
+  deleteUser,
 };
