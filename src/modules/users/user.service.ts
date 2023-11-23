@@ -20,7 +20,7 @@ const getAllUserFromDB = async () => {
 };
 
 //! get specific user
-const getSpecificUserFromDB = async (userId: number) => {
+const getSpecificUserFromDB = async (userId: string) => {
   if (!(await User.isUserExists(userId))) {
     throw new Error('User not found');
   }
@@ -29,7 +29,7 @@ const getSpecificUserFromDB = async (userId: number) => {
 };
 
 //! update user
-const updateUserInDB = async (userId: number, userData: IUser) => {
+const updateUserInDB = async (userId: string, userData: IUser) => {
   if (!(await User.isUserExists(userId))) {
     throw new Error('User not found');
   }
@@ -41,7 +41,7 @@ const updateUserInDB = async (userId: number, userData: IUser) => {
 };
 
 //! delete user
-const deleteUserFromDB = async (userId: number) => {
+const deleteUserFromDB = async (userId: string) => {
   if (!(await User.isUserExists(userId))) {
     throw new Error('User not found');
   }

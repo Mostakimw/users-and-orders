@@ -44,7 +44,7 @@ const getAllUser = async (req: Request, res: Response) => {
 //! get specific user
 const getSpecificUser = async (req: Request, res: Response) => {
   try {
-    const userId: number = parseInt(req.params.userId, 10);
+    const userId: string = req.params.userId;
     const result = await UserServices.getSpecificUserFromDB(userId);
     res.status(200).json({
       success: 'true',
@@ -67,7 +67,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const updatedUser = req.body;
-    const userId = parseInt(req.params.userId, 10);
+    const userId: string = req.params.userId;
     const result = await UserServices.updateUserInDB(userId, updatedUser);
     console.log(result);
     res.status(200).json({
@@ -90,7 +90,7 @@ const updateUser = async (req: Request, res: Response) => {
 //! delete user
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    const userId: number = parseInt(req.params.userId, 10);
+    const userId: string = req.params.userId;
     await UserServices.deleteUserFromDB(userId);
     res.status(200).json({
       success: 'true',

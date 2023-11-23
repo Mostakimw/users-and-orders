@@ -31,7 +31,7 @@ const UserSchemaZod = z.object({
   isActive: z.boolean(),
   hobbies: z.array(z.string()),
   address: AddressSchemaZod,
-  orders: z.array(OrderSchemaZod),
+  orders: z.array(OrderSchemaZod).optional(),
 });
 
 export default UserSchemaZod;

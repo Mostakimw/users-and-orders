@@ -107,8 +107,11 @@ userSchema.methods.toJSON = function () {
 };
 
 //! user exists or not method
-userSchema.statics.isUserExists = async function (userId: number) {
-  const user = await User.findOne({ userId });
+userSchema.statics.isUserExists = async function (userId: string) {
+  const user = await this.findOne({ userId });
+  if (!user) {
+    throw new Error('User not found');
+  }
   return user;
 };
 

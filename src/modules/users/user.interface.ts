@@ -31,11 +31,11 @@ export interface IUser {
   isActive: boolean;
   hobbies: string[];
   address: IAddress;
-  orders: IOrder[];
+  orders?: IOrder[];
 }
 
 //! method for user exists or not
 export interface UserModel extends Model<IUser> {
   // eslint-disable-next-line no-unused-vars
-  isUserExists(userId: number): Promise<IUser | null>;
+  isUserExists(userId: string): Promise<IUser | null>;
 }
