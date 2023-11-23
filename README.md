@@ -20,14 +20,15 @@ Before running the application, make sure you have the following installed on yo
 
 2. Navigate to the project directory:
 
-   ```cd users-and-orders
+   ```bash
+   cd users-and-orders
 
    ```
 
 3. Install dependencies:
 
-   ```npm install
-
+   ```bash
+   npm install
    ```
 
 ## Configuration
@@ -48,15 +49,20 @@ Before running the application, make sure you have the following installed on yo
 ## Build and Compilation
 
 - Build the TypeScript code using:
-  ```npm run build
+
+  ```bash
+  npm run build
 
   ```
 
 ## How to Run
 
 - Start the application with the following command:
-  ``` npm run start:dev
-  You can find more build command in package.json file.
+  ```bash
+  npm run start:dev
+  ```
+
+You can find more build command in package.json file.
 
 ## Contact Information
 
