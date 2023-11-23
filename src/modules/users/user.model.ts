@@ -105,12 +105,12 @@ userSchema.post('save', function (doc, next) {
 });
 
 //! exclude password
-userSchema.methods.toJSON = function () {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this.toObject();
-  delete user.password;
-  return user;
-};
+// userSchema.methods.toJSON = function () {
+//   // eslint-disable-next-line @typescript-eslint/no-this-alias
+//   const user = this.toObject();
+//   delete user.password;
+//   return user;
+// };
 
 //! user exists or not method
 userSchema.statics.isUserExists = async function (userId: string) {

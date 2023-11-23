@@ -31,27 +31,48 @@ const getSingleUserOrdersFromDB = async (userId: string) => {
 
 //! calculate total price
 const getTotalPriceForSingleUserFromDB = async (userId: string) => {
-  const existingUser = (await User.isUserExists(userId)) as IUser;
+  try {
+    const existingUser = await User.isUserExists(userId);
 
-  if (!existingUser) {
-    throw new Error('User not found');
-  }
+    if (!existingUser) {
+      throw new Error('User not found');
+    }
 
-  if (!existingUser.orders || existingUser.orders.length === 0) {
-    return 0;
-  }
-  const totalPrice = calculateTotalPrice(existingUser.orders);
-  return totalPrice;
-};
+    // calculate total price using aggregate
+    const totalPrice = await User.aggregate([
+      {
+        $match: { userId: existingUser.userId },
+      },
+      {
+        $unwind: '$orders',
+      },
+      {
+        $group: {
+          _id: '$userId',
+          totalPrice: {
+            $sum: {
+              $multiply: ['$orders.price', '$orders.quantity'],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalPrice: 1,
+        },
+      },
+    ]);
 
-//! function for calculate total price
-const calculateTotalPrice = (orders: IOrder[]): number => {
-  let totalPrice = 0;
-  for (const order of orders) {
-    const { price, quantity } = order;
-    totalPrice += price * quantity;
+    if (totalPrice.length === 0) {
+      return 0;
+    }
+
+    return totalPrice[0].totalPrice;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error(`Error calculating total price: ${error.message}`);
   }
-  return parseInt(totalPrice.toFixed(2));
 };
 
 export const OrderServices = {

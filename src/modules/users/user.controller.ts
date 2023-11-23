@@ -2,17 +2,21 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
 import UserSchemaZod from './user.validation';
+import { User } from './user.model';
 
 //! create user
 const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
     const validatedData = UserSchemaZod.parse(user);
-    const result = await UserServices.createUserIntoDB(validatedData);
+    await UserServices.createUserIntoDB(validatedData);
+    const responseData = await User.aggregate([
+      { $project: { orders: 0, password: 0 } },
+    ]);
     res.status(201).json({
       success: 'true',
       message: 'User created successfully!',
-      data: result,
+      data: responseData,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -45,11 +49,14 @@ const getAllUser = async (req: Request, res: Response) => {
 const getSpecificUser = async (req: Request, res: Response) => {
   try {
     const userId: string = req.params.userId;
-    const result = await UserServices.getSpecificUserFromDB(userId);
+    await UserServices.getSpecificUserFromDB(userId);
+    const responseData = await User.aggregate([
+      { $project: { orders: 0, password: 0 } },
+    ]);
     res.status(200).json({
       success: 'true',
       message: 'User fetched successfully!',
-      data: result,
+      data: responseData,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -68,12 +75,14 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const updatedUser = req.body;
     const userId: string = req.params.userId;
-    const result = await UserServices.updateUserInDB(userId, updatedUser);
-    console.log(result);
+    await UserServices.updateUserInDB(userId, updatedUser);
+    const responseData = await User.aggregate([
+      { $project: { orders: 0, password: 0 } },
+    ]);
     res.status(200).json({
       success: 'true',
       message: 'Users updated successfully!',
-      data: result,
+      data: responseData,
     });
   } catch (error: any) {
     res.status(500).json({
