@@ -49,7 +49,32 @@ const getSingleUserOrders = async (req: Request, res: Response) => {
   }
 };
 
+//! get total price for user
+const getTotalPriceForSingleUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const result = await OrderServices.getTotalPriceForSingleUserFromDB(userId);
+    res.status(201).json({
+      success: 'true',
+      message: 'Total price calculated successfully!',
+      data: {
+        totalPrice: result,
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: 'false',
+      message: error.message || 'User not found',
+      error: {
+        code: 500,
+        description: 'User not found',
+      },
+    });
+  }
+};
+
 export const OrderControllers = {
   createOrder,
   getSingleUserOrders,
+  getTotalPriceForSingleUser,
 };

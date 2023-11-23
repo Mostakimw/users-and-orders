@@ -4,5 +4,9 @@ const router = express.Router();
 
 router.post('/:userId/orders', OrderControllers.createOrder);
 router.get('/:userId/orders', OrderControllers.getSingleUserOrders);
+router.get(
+  '/:userId/orders/total-price',
+  OrderControllers.getTotalPriceForSingleUser,
+);
 
 export const OrderRoutes = router;

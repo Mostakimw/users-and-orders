@@ -29,7 +29,33 @@ const getSingleUserOrdersFromDB = async (userId: string) => {
   return result;
 };
 
+//! calculate total price
+const getTotalPriceForSingleUserFromDB = async (userId: string) => {
+  const existingUser = (await User.isUserExists(userId)) as IUser;
+
+  if (!existingUser) {
+    throw new Error('User not found');
+  }
+
+  if (!existingUser.orders || existingUser.orders.length === 0) {
+    return 0;
+  }
+  const totalPrice = calculateTotalPrice(existingUser.orders);
+  return totalPrice;
+};
+
+//! function for calculate total price
+const calculateTotalPrice = (orders: IOrder[]): number => {
+  let totalPrice = 0;
+  for (const order of orders) {
+    const { price, quantity } = order;
+    totalPrice += price * quantity;
+  }
+  return parseInt(totalPrice.toFixed(2));
+};
+
 export const OrderServices = {
   createOrderIntoDB,
   getSingleUserOrdersFromDB,
+  getTotalPriceForSingleUserFromDB,
 };
