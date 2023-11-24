@@ -25,7 +25,11 @@ const getSingleUserOrdersFromDB = async (userId: string) => {
   if (!(await User.isUserExists(userId))) {
     throw new Error('User not found');
   }
-  const result = await User.findOne({ userId }).select({ _id: 0, orders: 1 });
+  const result = await User.findOne({ userId }).select({
+    orders: 1,
+    _id: 0,
+    password: 0,
+  });
   return result;
 };
 

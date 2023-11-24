@@ -34,13 +34,13 @@ const getSingleUserOrders = async (req: Request, res: Response) => {
     const result = await OrderServices.getSingleUserOrdersFromDB(userId);
     res.status(201).json({
       success: 'true',
-      message: 'Order created successfully!',
+      message: 'Order fetched successfully!',
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
       success: 'false',
-      message: error.message || 'Order creation failed',
+      message: error.message || 'Order fetching failed',
       error: {
         code: 404,
         description: 'User not found!',

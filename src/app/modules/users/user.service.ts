@@ -3,7 +3,12 @@ import { User } from './user.model';
 
 //! create user
 const createUserIntoDB = async (userData: IUser) => {
-  const result = await User.create(userData);
+  const createdUser = await User.create(userData);
+  const result = await User.findOne({ userId: createdUser.userId }).select({
+    _id: 0,
+    password: 0,
+    orders: 0,
+  });
   return result;
 };
 
@@ -15,6 +20,8 @@ const getAllUserFromDB = async () => {
     age: 1,
     email: 1,
     address: 1,
+    _id: 0,
+    password: 0,
   });
   return result;
 };
@@ -24,7 +31,12 @@ const getSpecificUserFromDB = async (userId: string) => {
   if (!(await User.isUserExists(userId))) {
     throw new Error('User not found');
   }
-  const result = await User.findOne({ userId });
+  const result = await User.findOne({ userId: userId }).select({
+    password: 0,
+    orders: 0,
+    _id: 0,
+  });
+
   return result;
 };
 
@@ -36,6 +48,7 @@ const updateUserInDB = async (userId: string, userData: IUser) => {
   const result = await User.findOneAndUpdate({ userId }, userData, {
     new: true,
     runValidators: true,
+    projection: { _id: 0, password: 0, orders: 0 },
   });
   return result;
 };

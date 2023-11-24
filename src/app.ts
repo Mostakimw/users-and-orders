@@ -13,4 +13,8 @@ app.use(cors());
 app.use('/api/users', UserRoutes);
 app.use('/api/users', OrderRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Server running');
+});
+
 export default app;
