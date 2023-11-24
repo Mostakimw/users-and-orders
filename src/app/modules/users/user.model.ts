@@ -54,7 +54,14 @@ const userSchema = new Schema<IUser, UserModel>({
   userId: {
     type: Number,
     required: [true, 'User id is required'],
-    maxlength: 20,
+    validate: {
+      validator: function (value: number) {
+        const valueInStr = value.toString();
+        return valueInStr.length <= 5;
+      },
+      message: 'User Id must be less than 5 digit',
+    },
+    min: 1,
     unique: true,
   },
   username: {

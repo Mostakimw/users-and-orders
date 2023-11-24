@@ -22,7 +22,17 @@ const OrderSchemaZod = z.object({
 
 // user
 const UserSchemaZod = z.object({
-  userId: z.number().min(1).max(20),
+  userId: z
+    .number()
+    .min(1)
+    .refine(
+      (value: number) => {
+        const valueInStr = value.toString();
+        return valueInStr.length <= 5;
+      },
+      { message: 'User Id must be less than 5 digit' },
+    ),
+
   username: z.string().min(1).max(20),
   password: z.string().min(1),
   fullName: FullNameSchemaZod,
